@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <sstream>
 #include "json.hpp" // nlohmann
-#include "colormod.hpp" // credits to Joel Sjogren
+#include "colormod.hpp" // joel sjogren
 /*  
  *  COVID-19 TRACKER  
  *  INPIRED BY: joshxfi's covid-tracker
@@ -135,7 +135,8 @@ void menu()
 int main()
 {
     int c;
-
+    
+    system("clear");
     std::string name;
     do {
         title();
