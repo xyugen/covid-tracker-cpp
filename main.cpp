@@ -40,7 +40,7 @@ void toCapital(std::string &str) {
     str[0] = std::toupper(str[0]);
 }
 
-void printData(std::string params)
+void printData(std::string params, int flag)
 {
     CURL *curl;
     CURLcode res;
@@ -83,6 +83,25 @@ void printData(std::string params)
             tRecovered = j["todayRecovered"],
             active = j["active"],
             critical = j["critical"];
+
+        std::string type;
+        switch(flag)
+        {
+            case 1:
+                type = "Global";
+                break;
+            case 2:
+                type = j["continent"];
+                break;
+            case 3:
+                type = j["country"];
+                break;
+            default:
+                type = nullptr;
+                break;
+        }
+
+        std::cout << magenta << "\t\t" << type << def << std::endl; // prints type
 
         std::cout << blue <<
             "\tUpdated:\t\t" << updated << std::endl;
@@ -135,6 +154,7 @@ void menu()
 int main()
 {
     int c;
+    int flag = 0; // a flag to automatically set type name
     
     system("clear");
     std::string name;
@@ -151,8 +171,8 @@ int main()
                 system("clear");
                 title();
 
-                std::cout << "\t\tGLOBAL" << std::endl;
-                printData("all");
+                flag = 1; // all
+                printData("all", flag);
 
                 break;
             case 2:
@@ -162,8 +182,9 @@ int main()
                 std::cout << "Enter continent name: ";
                 std::cin >> name;
                 toCapital(name);
-                std::cout << "\t\t" << name << std::endl;
-                printData("continents/" + name);
+
+                flag = 2; // countinent
+                printData("continents/" + name, flag);
 
                 break;
             case 3:
@@ -174,8 +195,9 @@ int main()
                 std::cin >> name;
                 if (name.length() > 5)
                     toCapital(name);
-                std::cout << "\t\t" << name << std::endl;
-                printData("countries/" + name);
+
+                flag = 3; // countries
+                printData("countries/" + name, flag);
 
                 break;
             case 0:
