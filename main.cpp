@@ -19,6 +19,9 @@
 Color::Modifier red(Color::FG_RED);
 Color::Modifier green(Color::FG_GREEN);
 Color::Modifier blue(Color::FG_BLUE);
+Color::Modifier magenta(Color::FG_MAGENTA);
+Color::Modifier cyan(Color::FG_CYAN);
+Color::Modifier white(Color::FG_WHITE);
 
 Color::Modifier def(Color::FG_DEFAULT);
 
@@ -112,21 +115,21 @@ void printData(char * params)
 
 void title()
 {
-    std::cout << "  ___ _____ _  _ ____ ____     ____ ____   __   ___ _  _ ____ ____ \n";
-    
-    std::cout << " / __(  _  ( \\/ (_  _(  _ \\   (_  _(  _ \\ /__\\ / __( )/ ( ___(  _ \\\n";
-    std::cout << "( (__ )(_)( \\  / _)(_ )(_) )    )(  )   //(__)( (__ )  ( )__) )   /\n";
-    std::cout << " \\___(_____) \\/ (____(____/    (__)(_)\\_(__)(__\\___(_)\\_(____(_)\\_)" << std::endl;
+    std::cout << cyan << 
+        "  ___ _____ _  _ ____ ____     ____ ____   __   ___ _  _ ____ ____ \n" << 
+        " / __(  _  ( \\/ (_  _(  _ \\   (_  _(  _ \\ /__\\ / __( )/ ( ___(  _ \\\n" << 
+        "( (__ )(_)( \\  / _)(_ )(_) )    )(  )   //(__)( (__ )  ( )__) )   /\n" << 
+        " \\___(_____) \\/ (____(____/    (__)(_)\\_(__)(__\\___(_)\\_(____(_)\\_)" << def << std::endl;
 }
 
 void menu()
 {
-    std::cout <<
-        "\t\tPROGRAMMED BY: YUGEN\n\n" <<
+    std::cout << magenta <<
+        "\t\tPROGRAMMED BY: YUGEN\n\n" << white <<
         "\t[1] GLOBAL\n" <<
         "\t[2] CONTINENT\n" <<
-        "\t[3] COUNTRY\n\n" <<
-        "\t[0] EXIT" << std:: endl;
+        "\t[3] COUNTRY\n\n" << red <<
+        "\t[0] EXIT" << def << std:: endl;
 }
 
 int main()
