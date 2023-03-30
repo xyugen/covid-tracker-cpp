@@ -342,8 +342,11 @@ CMakeFiles/CovidTracker.dir/main.cpp.o: main.cpp \
   /usr/include/c++/12.2.1/codecvt \
   /usr/include/c++/12.2.1/bits/fs_dir.h \
   /usr/include/c++/12.2.1/bits/fs_ops.h \
-  /usr/include/c++/12.2.1/any
+  /usr/include/c++/12.2.1/any \
+  colormod.hpp
 
+
+colormod.hpp:
 
 /usr/include/c++/12.2.1/codecvt:
 

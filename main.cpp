@@ -3,9 +3,24 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdlib.h>
-#include "json.hpp"
+#include "json.hpp" // nlohmann
+#include "colormod.hpp" // credits to Joel Sjogren
+/*  
+ *  COVID-19 TRACKER  
+ *  INPIRED BY: joshxfi's covid-tracker
+ *  AUTHOR: xyugen
+ *  LICENCE: MIT-LICENSE
+ */ 
+
 
 #define URL "https://disease.sh/v3/covid-19/"
+
+// Color modifiers
+Color::Modifier red(Color::FG_RED);
+Color::Modifier green(Color::FG_GREEN);
+Color::Modifier blue(Color::FG_BLUE);
+
+Color::Modifier def(Color::FG_DEFAULT);
 
 static size_t WriteCallback(char *data, size_t size, size_t nmemb, std::string *buffer)
 {
@@ -66,28 +81,28 @@ void printData(char * params)
             active = j["active"],
             critical = j["critical"];
 
-        std::cout <<
+        std::cout << blue <<
             "\tUpdated:\t\t" << updated << std::endl;
         
         putchar('\n');
 
-        std::cout <<
-            "\tCases:\t\t\t" << cases << std::endl <<
-            "\tDeaths:\t\t\t" << deaths << std::endl <<
+        std::cout << blue <<
+            "\tCases:\t\t\t" << cases << std::endl << red <<
+            "\tDeaths:\t\t\t" << deaths << std::endl << green <<
             "\tRecovered:\t\t" << recovered << std::endl;
 
         putchar('\n');
 
-        std::cout <<
-            "\tCases Today:\t\t" << tCases << std::endl <<
-            "\tDeaths Today:\t\t" << tDeaths << std::endl <<
+        std::cout << blue <<
+            "\tCases Today:\t\t" << tCases << std::endl << red <<
+            "\tDeaths Today:\t\t" << tDeaths << std::endl << green <<
             "\tRecovered Today:\t" << tRecovered << std::endl;
 
         putchar('\n');
 
-        std::cout <<
-            "\tActive:\t\t\t" << active << std::endl <<
-            "\tCritical:\t\t" << critical << std::endl;
+        std::cout << blue <<
+            "\tActive:\t\t\t" << active << std::endl << red <<
+            "\tCritical:\t\t" << critical << def << std::endl;
 
     } else {
         std::cerr << "Error: buffer is empty" << std::endl;
@@ -97,7 +112,6 @@ void printData(char * params)
 
 void title()
 {
-    system("Color 0A");
     std::cout << "  ___ _____ _  _ ____ ____     ____ ____   __   ___ _  _ ____ ____ \n";
     
     std::cout << " / __(  _  ( \\/ (_  _(  _ \\   (_  _(  _ \\ /__\\ / __( )/ ( ___(  _ \\\n";

@@ -250,4 +250,5 @@ CMakeFiles/CovidTracker.dir/main.cpp.o: \
  /usr/include/c++/12.2.1/bits/quoted_string.h \
  /usr/include/c++/12.2.1/sstream /usr/include/c++/12.2.1/bits/sstream.tcc \
  /usr/include/c++/12.2.1/codecvt /usr/include/c++/12.2.1/bits/fs_dir.h \
- /usr/include/c++/12.2.1/bits/fs_ops.h /usr/include/c++/12.2.1/any
+ /usr/include/c++/12.2.1/bits/fs_ops.h /usr/include/c++/12.2.1/any \
+ /home/yugen/comprog/cpp/projects/covid-tracker/colormod.hpp
