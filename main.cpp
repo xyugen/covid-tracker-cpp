@@ -3,19 +3,20 @@
 #include <string.h>
 #include <ctype.h>
 #include <stdlib.h>
+#include <sstream>
 #include "json.hpp" // nlohmann
 #include "colormod.hpp" // credits to Joel Sjogren
 /*  
  *  COVID-19 TRACKER  
  *  INPIRED BY: joshxfi's covid-tracker
+ *  API: https://disease.sh/
  *  AUTHOR: xyugen
  *  LICENCE: MIT-LICENSE
  */ 
 
-
 #define URL "https://disease.sh/v3/covid-19/"
 
-// Color modifiers
+// color modifiers
 Color::Modifier red(Color::FG_RED);
 Color::Modifier green(Color::FG_GREEN);
 Color::Modifier blue(Color::FG_BLUE);
@@ -39,39 +40,38 @@ void toCapital(std::string &str) {
     str[0] = std::toupper(str[0]);
 }
 
-void printData(char * params)
+void printData(std::string params)
 {
     CURL *curl;
     CURLcode res;
     std::string buffer;
 
     char url_buffer[256];
-    snprintf(url_buffer, sizeof(url_buffer), "%s%s", URL, params);
+    std::ostringstream out;
+    //snprintf(url_buffer, sizeof(url_buffer), "%s%s", URL, params);
+    out << URL << params;
 
-    // Initialize the curl session
+    std::string url_str = out.str();
+    url_str.copy(url_buffer, url_str.size());
+    url_buffer[url_str.size()] = '\0';
+
+    // init curl session
     curl = curl_easy_init();
     if(curl) {
-        // Set the URL
+        // url
         curl_easy_setopt(curl, CURLOPT_URL, url_buffer);
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback); // send data to function
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &buffer); // save res -> buffer
 
-        // Send all data to this function
-        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
-
-        // Save response body to buffer
-        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &buffer);
-
-        // Perform the request
         res = curl_easy_perform(curl);
 
-        // Check for errors
         if(res != CURLE_OK)
-            std::cerr << "curl_easy_perform() failed: " << curl_easy_strerror(res) << std::endl;
+            std::cerr << "Request failed: " << curl_easy_strerror(res) << std::endl;
 
-        // Cleanup
+        // cleanup
         curl_easy_cleanup(curl);
     }
 
-    // Parse JSON object from buffer if buffer is not empty
     if (!buffer.empty()) {
         nlohmann::json j = nlohmann::json::parse(buffer);
         int updated = j["updated"],
@@ -119,13 +119,13 @@ void title()
         "  ___ _____ _  _ ____ ____     ____ ____   __   ___ _  _ ____ ____ \n" << 
         " / __(  _  ( \\/ (_  _(  _ \\   (_  _(  _ \\ /__\\ / __( )/ ( ___(  _ \\\n" << 
         "( (__ )(_)( \\  / _)(_ )(_) )    )(  )   //(__)( (__ )  ( )__) )   /\n" << 
-        " \\___(_____) \\/ (____(____/    (__)(_)\\_(__)(__\\___(_)\\_(____(_)\\_)" << def << std::endl;
+        " \\___(_____) \\/ (____(____/    (__)(_)\\_(__)(__\\___(_)\\_(____(_)\\_)\n" << magenta <<
+        "\t\t   PROGRAMMED BY: YUGEN" << def << std::endl;
 }
 
 void menu()
 {
-    std::cout << magenta <<
-        "\t\tPROGRAMMED BY: YUGEN\n\n" << white <<
+    std::cout << white <<
         "\t[1] GLOBAL\n" <<
         "\t[2] CONTINENT\n" <<
         "\t[3] COUNTRY\n\n" << red <<
@@ -136,6 +136,7 @@ int main()
 {
     int c;
 
+    std::string name;
     do {
         title();
         menu();
@@ -148,17 +149,33 @@ int main()
             case 1:
                 system("clear");
                 title();
+
                 std::cout << "\t\tGLOBAL" << std::endl;
-                printData((char*)"all");
+                printData("all");
+
                 break;
             case 2:
                 system("clear");
                 title();
 
+                std::cout << "Enter continent name: ";
+                std::cin >> name;
+                toCapital(name);
+                std::cout << "\t\t" << name << std::endl;
+                printData("continents/" + name);
+
                 break;
             case 3:
                 system("clear");
                 title();
+
+                std::cout << "Enter country name/iso2/iso3/code: ";
+                std::cin >> name;
+                if (name.length() > 5)
+                    toCapital(name);
+                std::cout << "\t\t" << name << std::endl;
+                printData("countries/" + name);
+
                 break;
             case 0:
                 system("clear");
