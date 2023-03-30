@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/CovidTracker.dir/main.cpp.o -o CovidTracker  /usr/lib/libcurl.so 

@@ -1,0 +1,3 @@
+/home/yugen/comprog/cpp/projects/covid-tracker/CMakeFiles/CovidTracker.dir
+/home/yugen/comprog/cpp/projects/covid-tracker/CMakeFiles/edit_cache.dir
+/home/yugen/comprog/cpp/projects/covid-tracker/CMakeFiles/rebuild_cache.dir
